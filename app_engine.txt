@@ -1,0 +1,25 @@
+gcloud config set compute/region us-central1
+gcloud config set compute/zone us-central1-a
+
+cd ~
+mkdir my_first_app
+cd my_first_app
+
+nano my_first_app.py
+import webapp2
+class HomePageRequestHandler(webapp2.RequestHandler):
+	def get(self):
+		self.response.headers['Content-Type']= 'text/html'
+		self.response.write('<h3>Hello , World</h3> <p>This is so exciting</p>')
+
+routes = [('/',HomePageRequestHandler),]		
+app = webapp2.WSGIApplication(routes = routes, debug=true)
+	
+	
+nano app.yaml
+runtime: python2.7
+api_version: 1
+threadsafe: true
+handlers:
+ - url: /.*
+ - script: my_first_app.app
